@@ -199,28 +199,26 @@ input, select, textarea { background: var(--panel-2); border: 1px solid var(--li
 .chat { gap: 14px; }
 .as-name { font-size: 16px; }
 
-/* ================= GREEN CRT PALETTE (phosphor terminal) ================= */
+/* ================= FLAT TERMINAL: black background, green text ================= */
+/* Clean VS Code / Kali terminal look — no glow, no scanlines. */
 :root {
-  --bg: #020a05; --panel: #04150a; --panel-2: #061d0e; --panel-3: #0a2816;
-  --line: #0e3a1e; --line-2: #175c30; --text: #4dff84; --dim: #2b9a52;
-  --cream: #c6ffd6; --orange: #39ff6a; --orange-d: #06230f; --teal: #57ffb0; --teal-d: #052a1a;
-  --green: #39ff6a; --green-d: #06230f; --purple: #57ffb0; --purple-d: #052a1a;
-  --amber: #b7ff5a; --amber-d: #1a2606; --red: #ff6b6b; --cyan: #57ffd6;
+  --bg: #000000; --panel: #0a0a0a; --panel-2: #101010; --panel-3: #181818;
+  --line: #1c1c1c; --line-2: #2a2a2a; --text: #33d457; --dim: #1f7a3a;
+  --cream: #7fe38f; --orange: #33d457; --orange-d: #0a1f10; --teal: #33d457; --teal-d: #0a1f10;
+  --green: #33d457; --green-d: #0a1f10; --purple: #33d457; --purple-d: #0a1f10;
+  --amber: #c5d46a; --amber-d: #14160a; --red: #e06c6c; --cyan: #33d457;
 }
 body { color: var(--text); }
-::selection { background: var(--green); color: #021005; }
-/* dark text on the bright-green primary / cream buttons */
-button.primary, .composer .send { color: #021005; }
-.cream-btn, #btn-import, #flag-submit { color: #04140a; }
-.brand { color: var(--cream); }
-.brand .cho-mini { color: var(--green); }
-.title-input, h1, .as-name { color: var(--cream); }
-.term-line input, .composer textarea, .msg.user .bd { color: var(--cream); }
+* { text-shadow: none !important; box-shadow: none !important; }
+::selection { background: var(--green); color: #000; }
+body::after { display: none !important; }
 
-/* gentle phosphor glow + faint scanlines (legibility kept; no flicker) */
-.term, #term-prompt, .term-line .prompt, h1, .brand, .as-name, .cho-ascii { text-shadow: 0 0 6px rgba(57,255,106,.45) !important; }
-.term .cmd { color: var(--green); }
-.dock { box-shadow: 0 0 20px rgba(57,255,106,.10) !important; border-color: var(--line-2); }
-body::after { content: ''; position: fixed; inset: 0; z-index: 180; pointer-events: none;
-  background: repeating-linear-gradient(0deg, rgba(0,0,0,.14) 0 1px, transparent 1px 3px); display: block !important; }
-@media (prefers-reduced-motion: reduce) { body::after { display: none !important; } }
+/* keep accents green, highlights a brighter green rather than a second hue */
+.term .cmd, .term .info { color: #5de87d; }
+.brand, .brand .cho-mini, .title-input, h1, .as-name, #term-prompt, .term-line .prompt { color: #5de87d; }
+.sidenav button.active, .vtabs button.active, .dtabs button.active { border-bottom-color: var(--green); }
+
+/* solid-green buttons get black text; everything else stays outlined green-on-black */
+button.primary, .composer .send, #btn-import, #flag-submit { background: var(--green); border-color: var(--green); color: #00140a; }
+button.primary:hover, .composer .send:hover, #btn-import:hover, #flag-submit:hover { background: #45e86a; color: #00140a; }
+.dock, .flagbar, .chmain > .viewer, .toolbelt { border-color: var(--line-2); }
