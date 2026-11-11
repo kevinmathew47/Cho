@@ -1,5 +1,9 @@
 # Cho — CTF Workspace
 
+[![Tests](https://github.com/kevinmathew47/Cho/actions/workflows/ci.yml/badge.svg)](https://github.com/kevinmathew47/Cho/actions/workflows/ci.yml)
+[![Pages](https://github.com/kevinmathew47/Cho/actions/workflows/pages.yml/badge.svg)](https://kevinmathew47.github.io/Cho/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 **An open-source, AI-assisted workspace for Capture-the-Flag competitions and isolated practice labs.**
 
 Cho is a terminal-style desktop app that brings your CTF toolkit, a real shell, and a local AI teammate into one window. It helps you organise a challenge, inspect the files, run the right tool, and reason about the output — on your own machine, offline.
