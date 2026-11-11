@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cho — AI-assisted CTF Workspace</title>
+<meta name="description" content="An open-source, AI-assisted terminal workspace for Capture-the-Flag competitions and isolated practice labs. Local AI, 100+ tools, controlled execution.">
+<style>
+  :root{
+    --bg:#020a05;--panel:#04150a;--line:#0e3a1e;--line2:#175c30;
+    --text:#4dff84;--dim:#2b9a52;--green:#39ff6a;--teal:#57ffb0;--cream:#c6ffd6;--amber:#b7ff5a;
+    --mono:'Cascadia Mono','JetBrains Mono','DejaVu Sans Mono',Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:15px;line-height:1.6;
+    text-shadow:0 0 6px rgba(57,255,106,.35)}
+  body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:50;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,.14) 0 1px,transparent 1px 3px)}
+  a{color:var(--teal);text-decoration:none;border-bottom:1px dotted var(--line2)}
+  a:hover{color:var(--cream)}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  header{border-bottom:1px solid var(--line);padding:14px 0}
+  header .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .brand{font-weight:700;letter-spacing:3px;color:var(--cream);font-size:18px;text-transform:uppercase}
+  .brand b{color:var(--green)}
+  header nav{margin-left:auto;display:flex;gap:18px;font-size:13px}
+  .hero{padding:54px 0 30px;text-align:center}
+  .hero h1{font-size:34px;color:var(--cream);margin:0 0 10px;letter-spacing:1px}
+  .hero p{color:var(--text);max-width:720px;margin:0 auto 10px;font-size:17px}
+  .tagline{color:var(--dim);font-size:14px}
+  .cta{display:flex;gap:14px;justify-content:center;margin:26px 0 10px;flex-wrap:wrap}
+  .btn{border:1px solid var(--green);padding:11px 20px;border-radius:6px;color:var(--green);font-weight:700;
+    letter-spacing:1px;background:transparent}
+  .btn.solid{background:var(--green);color:#021005;text-shadow:none}
+  .btn:hover{background:var(--green);color:#021005}
+  .warn{border:1px solid var(--amber);background:#141a05;color:var(--amber);border-radius:8px;
+    padding:12px 16px;margin:22px auto;max-width:760px;font-size:13.5px;text-align:left}
+  .shot{margin:30px auto;max-width:980px;border:1px solid var(--line2);border-radius:10px;overflow:hidden;
+    box-shadow:0 0 40px rgba(57,255,106,.12)}
+  .shot img{width:100%;display:block}
+  section{padding:34px 0;border-top:1px solid var(--line)}
+  h2{color:var(--green);font-size:18px;letter-spacing:1px;text-transform:uppercase;margin:0 0 18px}
+  h2::before{content:'// '}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .card{border:1px solid var(--line2);border-radius:8px;padding:14px 16px;background:var(--panel)}
+  .card h3{margin:0 0 6px;color:var(--cream);font-size:15px}
+  .card p{margin:0;color:var(--text);font-size:13.5px}
+  pre{background:#010603;border:1px solid var(--line2);border-radius:8px;padding:14px 16px;overflow:auto;
+    color:var(--cream);font-size:13.5px}
+  .muted{color:var(--dim)}
+  ul.clean{list-style:none;padding:0;margin:0}
+  ul.clean li{padding:6px 0 6px 20px;position:relative;font-size:14px}
+  ul.clean li::before{content:'>';position:absolute;left:0;color:var(--green)}
+  footer{border-top:1px solid var(--line);padding:24px 0;color:var(--dim);font-size:13px;text-align:center}
+  @media(prefers-reduced-motion:reduce){body::after{display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <span class="brand">CTF <b>/</b> CHO</span>
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#install">Install</a>
+    <a href="#safety">Safety</a>
+    <a href="https://github.com/kevinmathew47/Cho">GitHub</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>Your CTF cockpit, with a local AI teammate.</h1>
+    <p>Cho is an open-source, terminal-style desktop app for Capture-the-Flag competitions and isolated practice labs. One shell, a 100+ tool catalogue, built-in artifact analysis, and an AI that runs entirely on your own machine.</p>
+    <p class="tagline">Local-first · offline AI · controlled execution · MIT licensed</p>
+    <div class="cta">
+      <a class="btn solid" href="https://github.com/kevinmathew47/Cho">View on GitHub</a>
+      <a class="btn" href="#install">Get started</a>
+    </div>
+  </div>
+
+  <div class="warn">⚠ <b>Authorised use only.</b> Use Cho for CTFs you are entered in and practice environments you are allowed to use. It is an assistant, not an autopilot — it does not guarantee a solve and will not exploit a real target on its own. Follow each competition's rules on AI and automation.</div>
+
+  <div class="shot"><img src="img/screenshot.png" alt="Cho CTF Workspace — terminal, file inspector, and the Cho AI panel"></div>
+</div>
+
+<section id="features"><div class="wrap">
+  <h2>What it does</h2>
+  <div class="grid">
+    <div class="card"><h3>One terminal</h3><p>A real Kali/WSL, container, or PowerShell shell in the challenge folder. Run commands, or type <span class="muted">? your question</span> to ask the AI — same prompt.</p></div>
+    <div class="card"><h3>Local AI teammate</h3><p>Cho runs on Ollama on your own hardware. It suggests the next step and the command — you approve each one. Nothing about your challenges leaves the machine.</p></div>
+    <div class="card"><h3>Verified vs assumed</h3><p>Cho labels what it can prove from real output separately from what it guesses, so you always know what's a fact and what's a hypothesis.</p></div>
+    <div class="card"><h3>Built-in analysis</h3><p>File-type and metadata inspection, hidden-data detection, entropy, flag scanning, and chained auto-decoding — before you install a single tool.</p></div>
+    <div class="card"><h3>100+ tools</h3><p>A catalogue across crypto, forensics, stego, reversing, pwn and web — each with an example command and a one-line install. Mirrors the awesome-ctf stack.</p></div>
+    <div class="card"><h3>Controlled execution</h3><p>Destructive commands blocked, network commands held for your approval, per-challenge authorised targets, and an optional no-network container sandbox.</p></div>
+  </div>
+</div></section>
+
+<section id="categories"><div class="wrap">
+  <h2>Six categories, one workspace</h2>
+  <ul class="clean">
+    <li><b>Cryptography</b> — RSA attacks, XOR tools, hash ID, classical ciphers, a built-in decoder.</li>
+    <li><b>Forensics</b> — Sleuth Kit, Volatility, ExifTool, binwalk, foremost, tshark, pcap carving.</li>
+    <li><b>Steganography</b> — zsteg, steghide/stegseek, outguess, spectrograms, bit-plane tools.</li>
+    <li><b>Reversing</b> — Ghidra, radare2, GDB, objdump, apktool/jadx, angr, Frida.</li>
+    <li><b>Exploitation / pwn</b> — pwntools, checksec, ROPgadget, ropper, one_gadget, Metasploit.</li>
+    <li><b>Web</b> — curl, gobuster, ffuf, sqlmap, nikto, Burp, ZAP, plus remote-target fetching.</li>
+  </ul>
+</div></section>
+
+<section id="install"><div class="wrap">
+  <h2>Install</h2>
+  <pre>git clone https://github.com/kevinmathew47/Cho.git
+cd Cho
+npm install
+npm start</pre>
+  <p class="muted">From the app's Settings: one-click install Kali (WSL) and the tool stack, install Ollama and pull a model (e.g. <span style="color:var(--cream)">qwen2.5:7b</span>), or build the container image. None are required to start — the analysis, viewers and terminal work out of the box. Try it by dropping <span style="color:var(--cream)">samples/practice-evidence.zip</span> onto the window.</p>
+</div></section>
+
+<section id="safety"><div class="wrap">
+  <h2>Safety &amp; transparency</h2>
+  <ul class="clean">
+    <li>Work stays inside the challenge folder and the hosts you authorise; everything else is refused.</li>
+    <li>The scope check reads command text; container mode is the real network isolation — limits are documented honestly.</li>
+    <li>No claims of universal tool support or guaranteed wins. Reliable, transparent help only.</li>
+    <li>See <a href="https://github.com/kevinmathew47/Cho/blob/main/SECURITY.md">SECURITY.md</a> and <a href="https://github.com/kevinmathew47/Cho/blob/main/docs/ARCHITECTURE.md">ARCHITECTURE.md</a>.</li>
+  </ul>
+</div></section>
+
+<footer><div class="wrap">
+  Cho CTF Workspace · MIT licensed · <a href="https://github.com/kevinmathew47/Cho">github.com/kevinmathew47/Cho</a><br>
+  Built for authorised CTF competitions and isolated practice environments.
+</div></footer>
+</body>
+</html>

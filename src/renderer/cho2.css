@@ -1,0 +1,226 @@
+/* ================= CTF / CHO — clean terminal theme =================
+   Warm near-black, cream controls, orange + teal accents. Only the parts a
+   challenge needs: a challenge box, a terminal, a tool belt, a flag line, Cho. */
+:root {
+  --bg: #0c0e0a; --panel: #13160f; --panel-2: #181c12; --panel-3: #20251a;
+  --line: #2a301f; --line-2: #3a4230; --text: #dcdcc8; --dim: #8b9073;
+  --cream: #e9e4cf; --orange: #ff5a1f; --orange-d: #3a1608; --teal: #35c9b0; --teal-d: #0e2a26;
+  --green: #35c9b0; --green-d: #0e2a26; --purple: var(--teal); --purple-d: var(--teal-d);
+  --amber: #e5c07b; --amber-d: #2e2410; --red: #ff6b6b; --cyan: #35c9b0;
+  --mono: 'Cascadia Mono', 'Cascadia Code', 'JetBrains Mono', 'DejaVu Sans Mono', Consolas, monospace;
+}
+html, body { background: var(--bg); color: var(--text); font-family: var(--mono); font-size: 13px; }
+body::before, body::after { display: none !important; }
+* { text-shadow: none !important; letter-spacing: 0; }
+::selection { background: var(--orange); color: #000; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 6px; }
+
+/* ---------- top bar: title + tab strip ---------- */
+.topbar { height: 42px; background: var(--bg); border-bottom: 1px solid var(--line); gap: 12px; padding: 0 14px; }
+.brand { font-size: 14px; font-weight: 700; letter-spacing: 2px; color: var(--cream); min-width: 0; gap: 8px; text-transform: uppercase; }
+.brand::after { content: none; }
+.brand .cho-mini { color: var(--orange); }
+#ch-select { width: 230px; height: 26px; padding: 0 8px; background: var(--panel-2); border: 1px solid var(--line-2); color: var(--text); font-size: 12px; border-radius: 6px; }
+.search { max-width: 300px; }
+.search input { height: 26px; background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 6px; padding-top: 0; padding-bottom: 0; }
+.search .ico { top: 4px; color: var(--dim); }
+.pill { font-size: 11px; padding: 3px 11px; border-radius: 6px; letter-spacing: 0; text-transform: none; border: 1px solid var(--line-2); }
+.pill.ok { color: var(--teal); border-color: var(--teal); background: var(--teal-d); }
+.pill.warn { color: var(--amber); border-color: var(--amber); background: var(--amber-d); }
+.icon-btn { color: var(--dim); }
+.icon-btn:hover { color: var(--cream); border-color: transparent !important; }
+
+/* ---------- frame ---------- */
+.shell { height: calc(100% - 42px - 26px); grid-template-columns: minmax(0, 1fr) 360px; grid-template-rows: 34px minmax(0, 1fr); }
+.sidenav { grid-column: 1 / -1; flex-direction: row; align-items: stretch; gap: 4px; padding: 0 14px; background: var(--bg); border-right: none; border-bottom: 1px solid var(--line); }
+.sidenav button { border: none; border-bottom: 2px solid transparent; border-left: none; padding: 0 16px; font-size: 12.5px; text-transform: none; letter-spacing: 0; color: var(--dim); }
+.sidenav button::before, .sidenav button::after { content: none !important; }
+.sidenav button b { color: var(--dim); font-weight: 400; margin-left: 3px; }
+.sidenav button.active { color: var(--cream); border-bottom-color: var(--orange); background: transparent; }
+.sidenav button.active b { color: var(--orange); }
+.sidenav button[data-view="overview"], .sidenav button[data-view="files"], .sidenav button[data-view="settings"] { display: none; }
+#views, .assistant { grid-row: 2; min-height: 0; }
+.view { background: transparent; }
+
+h1 { font-size: 15px; text-transform: none; letter-spacing: 1px; color: var(--cream); font-weight: 700; }
+h1::before { content: none; }
+h3 { color: var(--dim); text-transform: uppercase; letter-spacing: 1px; font-size: 11px; }
+h3::before { content: none; }
+
+/* ---------- buttons & inputs ---------- */
+button { border: 1px solid var(--line-2); background: var(--panel-2); color: var(--text); border-radius: 6px; padding: 6px 12px; }
+button:hover:not(:disabled) { border-color: var(--cream); color: var(--cream); background: var(--panel-3); }
+button.primary, .composer .send { background: var(--orange); border-color: var(--orange); color: #140600; font-weight: 700; text-transform: none; letter-spacing: 0; }
+button.primary:hover, .composer .send:hover { filter: brightness(1.08); background: var(--orange); color: #140600; }
+.cream-btn, #btn-import, #flag-submit { background: var(--cream); color: #1a1a10; border-color: var(--cream); font-weight: 700; }
+input, select, textarea { background: var(--panel-2); border: 1px solid var(--line-2); color: var(--text); border-radius: 6px; }
+
+/* ---------- workbench: challenge card, terminal, belt, flag ---------- */
+.workbench { grid-template-columns: 200px minmax(0, 1fr); }
+.filepanel { padding: 12px 10px; gap: 8px; background: var(--panel); border-right: 1px solid var(--line); }
+.filepanel::before { content: 'Project'; color: var(--dim); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 0 2px; font-weight: 700; }
+.filepanel h3 { display: none; }
+.tnode.sel { background: var(--orange-d); color: var(--cream); }
+.tnode .fi { color: var(--dim); }
+
+.chmain { padding: 12px; gap: 10px; }
+/* challenge header as a bordered card */
+.title-input { order: 0; font-size: 16px; color: var(--cream); font-weight: 700; flex: none; }
+.chips { order: 1; gap: 6px; }
+#ch-category, #ch-difficulty, .chips .c-green:not(#solved-badge), .crumbs { display: none !important; }
+.chips .chip { border: 1px solid var(--line-2); color: var(--dim); background: var(--panel-2); border-radius: 6px; }
+.chips .chip input { color: var(--text); }
+#solved-badge { display: inline-flex !important; color: var(--teal); border-color: var(--teal); background: var(--teal-d); }
+#solved-badge.hidden { display: none !important; }
+#ch-desc { order: 2; color: var(--text); font-size: 13px; background: var(--panel); border: 1px solid var(--line-2); border-radius: 8px; padding: 10px 12px; min-height: 42px; max-height: 90px; }
+
+/* terminal window */
+.dock { order: 3; flex: 1 1 300px; min-height: 230px; background: #080a06; border: 1px solid var(--line-2); border-radius: 10px; overflow: hidden; }
+.dock::before { content: 'Terminal'; display: block; background: var(--panel-2); color: var(--cream); font-size: 12px; font-weight: 700; padding: 7px 12px; border-bottom: 1px solid var(--line); }
+.dtabs { background: #080a06; border-bottom: 1px solid var(--line); padding: 0 8px; }
+.dtabs button[data-dtab] { color: var(--dim); text-transform: none; letter-spacing: 0; font-size: 12px; padding: 7px 12px; }
+.dtabs button.active { color: var(--cream); border-bottom-color: var(--orange); }
+#shell-label { color: var(--dim); }
+.term, #py-editor, .term-line { background: #080a06; }
+.term { font-size: 13px; line-height: 1.5; color: var(--text); padding: 10px 14px; }
+.term .cmd { color: var(--teal); }
+.term .info { color: var(--cyan); }
+.term .err { color: var(--red); }
+.term-line { display: block; position: relative; border-top: 1px solid var(--line); padding: 0 14px 12px; }
+#term-prompt, .term-line .prompt { white-space: pre; color: var(--teal); font-size: 13px; line-height: 1.5; }
+.term-line input { position: absolute; left: calc(14px + var(--prompt-ch, 4) * 1ch); bottom: 12px; width: calc(100% - 28px - var(--prompt-ch, 4) * 1ch); background: transparent; border: none; color: var(--cream); font-size: 13px; font-family: var(--mono); height: 20px; padding: 0; }
+.term-line input::placeholder { color: #4b5238; }
+
+/* tool belt */
+.toolbelt { order: 4; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; background: var(--panel); border: 1px solid var(--line-2); border-radius: 10px; padding: 8px 12px; }
+.toolbelt .tb-label { color: var(--dim); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-right: 4px; }
+.toolbelt button { background: var(--cream); color: #1a1a10; border-color: var(--cream); font-weight: 700; padding: 6px 12px; min-width: 70px; }
+.toolbelt button:hover { filter: brightness(.95); color: #1a1a10; }
+.toolbelt button.belt-teal { background: var(--teal); border-color: var(--teal); }
+.toolbelt button.belt-orange { background: var(--orange); border-color: var(--orange); color: #140600; }
+
+/* file inspector sits under the belt, collapsible */
+.chmain > .viewer { order: 5; flex: 0 1 220px; min-height: 0; background: var(--panel); border: 1px solid var(--line-2); border-radius: 10px; }
+.chmain > .viewer::before { content: none; }
+.chmain > .viewer.collapsed { flex: none; }
+.viewer.collapsed .viewer-body, .viewer.collapsed .actions { display: none; }
+.vtabs { background: var(--panel-2); border-bottom: 1px solid var(--line); }
+.vtabs button { color: var(--dim); text-transform: none; letter-spacing: 0; font-size: 12px; }
+.vtabs button.active { color: var(--cream); border-bottom-color: var(--orange); }
+.insp-toggle { font-size: 11px; margin-left: 8px; }
+.actions button { font-size: 12px; }
+
+/* flag candidate */
+.flagbar { order: 6; background: var(--panel); border: 1px solid var(--teal); border-radius: 10px; padding: 10px 12px; }
+.flagbar::before { content: 'Flag'; color: var(--teal); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-right: 4px; }
+.flagbar .ico { display: none; }
+.flagbar input { color: var(--teal); background: transparent; border: none; font-size: 14px; }
+.flagbar input::placeholder { color: var(--dim); }
+
+/* ---------- Cho / operator panel ---------- */
+.assistant { padding: 12px; background: var(--panel); border-left: 1px solid var(--line); gap: 10px; }
+.assistant::before { content: none; }
+.as-head { gap: 10px; }
+.cho-main { width: 64px; height: 50px; }
+.cho-ascii { color: var(--teal); }
+[data-mood="thinking"] .cho-ascii { color: var(--amber); }
+[data-mood="happy"] .cho-ascii { color: var(--teal); }
+[data-mood="error"] .cho-ascii { color: var(--red); }
+.as-name { font-size: 15px; color: var(--cream); letter-spacing: 0; text-transform: none; }
+.bubble { background: var(--teal-d); border: 1px solid var(--teal); color: var(--text); top: 56px; border-radius: 8px; }
+.bubble::before { content: 'cho> '; color: var(--teal); }
+.modes { background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 8px; padding: 3px; gap: 3px; }
+.modes button { text-transform: none; letter-spacing: 0; font-size: 12px; padding: 5px; color: var(--dim); border: none; }
+.modes button.active { background: var(--teal-d); border: 1px solid var(--teal); color: var(--teal); }
+.ctx, #plan-card { display: none !important; }
+.chat { font-size: 12.5px; }
+.msg .av { color: var(--teal); }
+.msg .bd, .msg.user .bd { border-left: 2px solid var(--line-2); background: transparent; }
+.msg.user .bd { border-left-color: var(--orange); color: var(--cream); }
+.msg.note .bd { border: 1px dashed var(--line-2); border-radius: 6px; }
+.code, .toolrun { background: #080a06; border: 1px solid var(--line-2); border-radius: 8px; }
+.toolrun .bar { background: var(--panel-2); }
+.toolrun .bar .c, .code .bar button.run { color: var(--teal); }
+.finding { background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 8px; }
+.finding .fi-tx b { color: var(--teal); }
+.composer { background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 10px; }
+.composer textarea { color: var(--cream); }
+#agent-ctl button { border-radius: 6px; }
+
+/* ---------- status bar ---------- */
+.statusbar { height: 26px; background: var(--bg); border-top: 1px solid var(--line); font-size: 11.5px; text-transform: none; letter-spacing: 0; gap: 18px; color: var(--dim); }
+.statusbar .on { color: var(--teal); }
+#sb-clock { color: var(--text); margin-left: 14px; }
+
+/* ---------- toolbox / settings keep the same palette ---------- */
+.tb-cat { color: var(--dim); }
+.tool { background: var(--panel); border: 1px solid var(--line-2); border-radius: 10px; }
+.tool .st.ok { color: var(--teal); background: var(--teal-d); }
+.tool-link { color: var(--teal); }
+.tool-install { color: var(--amber); background: var(--amber-d); border-radius: 4px; }
+.catchips button.active { background: var(--orange-d); border-color: var(--orange); color: var(--cream); }
+.card, .mini-card, .setup-item, .stat, .ch-card { background: var(--panel); border: 1px solid var(--line-2); border-radius: 10px; }
+.ch-card:hover { border-color: var(--orange); }
+.toast { background: var(--panel-3); border: 1px solid var(--line-2); color: var(--cream); border-radius: 8px; }
+.drop-overlay div { background: #000; border-color: var(--orange); color: var(--orange); }
+
+/* inspector scroll */
+.viewer-body { overflow: hidden; }
+.viewer-body > * { height: 100%; overflow: auto; }
+.pv { grid-template-rows: minmax(0, 1fr); }
+.pv > * { min-height: 0; max-height: 100%; overflow: auto; }
+
+/* ================= SIMPLIFY: fewer controls, more breathing room ================= */
+/* one terminal, no sub-tabs; no inspector action buttons; no mode switch */
+.dtabs button[data-dtab="python"], .dtabs button[data-dtab="output"] { display: none; }
+.viewer .actions { display: none; }
+.modes, .ctx, #plan-card, #agent-ctl { display: none !important; }
+
+/* calmer spacing and alignment */
+.chmain { padding: 16px 18px; gap: 14px; max-width: 1100px; }
+.title-input { margin-bottom: 2px; }
+.chips { gap: 10px; margin-bottom: 2px; }
+.chips .chip { height: 30px; align-items: center; }
+#ch-desc { min-height: 48px; }
+.dock { flex: 1 1 320px; min-height: 260px; }
+.dock::before { letter-spacing: 1px; }
+.dtabs { padding: 0 10px; }
+
+/* inspector: quieter, collapsed by default (open it from its tabs) */
+.chmain > .viewer { flex: 0 1 200px; }
+.vtabs { padding: 0 10px; }
+
+/* flag bar aligned with the rest */
+.flagbar { padding: 12px 14px; gap: 12px; }
+
+/* assistant: just Cho + chat + ask, generous spacing */
+.assistant { padding: 16px 14px; gap: 14px; }
+.chat { gap: 14px; }
+.as-name { font-size: 16px; }
+
+/* ================= GREEN CRT PALETTE (phosphor terminal) ================= */
+:root {
+  --bg: #020a05; --panel: #04150a; --panel-2: #061d0e; --panel-3: #0a2816;
+  --line: #0e3a1e; --line-2: #175c30; --text: #4dff84; --dim: #2b9a52;
+  --cream: #c6ffd6; --orange: #39ff6a; --orange-d: #06230f; --teal: #57ffb0; --teal-d: #052a1a;
+  --green: #39ff6a; --green-d: #06230f; --purple: #57ffb0; --purple-d: #052a1a;
+  --amber: #b7ff5a; --amber-d: #1a2606; --red: #ff6b6b; --cyan: #57ffd6;
+}
+body { color: var(--text); }
+::selection { background: var(--green); color: #021005; }
+/* dark text on the bright-green primary / cream buttons */
+button.primary, .composer .send { color: #021005; }
+.cream-btn, #btn-import, #flag-submit { color: #04140a; }
+.brand { color: var(--cream); }
+.brand .cho-mini { color: var(--green); }
+.title-input, h1, .as-name { color: var(--cream); }
+.term-line input, .composer textarea, .msg.user .bd { color: var(--cream); }
+
+/* gentle phosphor glow + faint scanlines (legibility kept; no flicker) */
+.term, #term-prompt, .term-line .prompt, h1, .brand, .as-name, .cho-ascii { text-shadow: 0 0 6px rgba(57,255,106,.45) !important; }
+.term .cmd { color: var(--green); }
+.dock { box-shadow: 0 0 20px rgba(57,255,106,.10) !important; border-color: var(--line-2); }
+body::after { content: ''; position: fixed; inset: 0; z-index: 180; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,.14) 0 1px, transparent 1px 3px); display: block !important; }
+@media (prefers-reduced-motion: reduce) { body::after { display: none !important; } }

@@ -1,0 +1,30 @@
+{
+  "name": "cho-ctf",
+  "version": "0.1.0",
+  "description": "Cho - AI-assisted CTF cockpit (Electron + WSL tools + local Ollama model)",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node test/analyzers.test.js && node test/modules.test.js && node test/scope.test.js",
+    "dist": "electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "33.2.1",
+    "electron-builder": "25.1.8"
+  },
+  "build": {
+    "appId": "local.cho.ctf",
+    "productName": "Cho CTF",
+    "files": [
+      "src/**/*",
+      "scripts/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "scripts/**/*"
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  }
+}

@@ -1,0 +1,146 @@
+/* ================= KALI-STYLE DESKTOP =================
+   A plain Linux-desktop look: top panel, one terminal window, files on the left, Cho on the right.
+   Only the controls the workflow needs are shown. */
+:root {
+  --bg: #13151a; --panel: #1b1e25; --panel-2: #23272f; --panel-3: #2b303a;
+  --line: #2c313c; --line-2: #3a4050; --text: #e4e7ec; --dim: #8089a0;
+  --green: #5fd38d; --green-d: #17301f; --purple: #2f81f7; --purple-d: #15284a;
+  --amber: #e5c07b; --amber-d: #33290f; --red: #ff6b6b; --cyan: #56b6f2;
+  --mono: 'Cascadia Mono', 'Cascadia Code', 'Fira Code', 'DejaVu Sans Mono', Consolas, monospace;
+}
+html, body { background: var(--bg); font-size: 13px; }
+body::before, body::after { display: none !important; }
+* { text-shadow: none !important; }
+::selection { background: var(--purple); color: #fff; }
+
+/* ---------- top panel (like the Kali panel) ---------- */
+.topbar { height: 34px; background: #0d0f13; border-bottom: 1px solid #000; gap: 10px; padding: 0 10px; }
+.brand { font-size: 12.5px; letter-spacing: 0; text-transform: none; color: var(--text); min-width: 0; gap: 6px; font-weight: 600; }
+.brand::after { content: none; }
+.brand .cho-mini { color: var(--purple); }
+#ch-select { width: 260px; height: 24px; padding: 0 8px; background: var(--panel-2); border-color: var(--line); font-size: 12px; }
+.search { max-width: 340px; }
+.search input { height: 24px; padding-top: 0; padding-bottom: 0; background: var(--panel-2); border-color: var(--line); font-size: 12px; }
+.search .ico { top: 3px; }
+.pill { font-size: 11px; padding: 2px 10px; letter-spacing: 0; text-transform: none; background: transparent !important; }
+.icon-btn { color: var(--dim); }
+
+/* ---------- frame ---------- */
+.shell { height: calc(100% - 34px - 24px); grid-template-columns: minmax(0, 1fr) 380px; grid-template-rows: 28px minmax(0, 1fr); }
+.sidenav { background: var(--panel); border-bottom: 1px solid #000; padding: 0 6px; }
+.sidenav button { font-size: 12px; letter-spacing: 0; text-transform: none; padding: 0 14px; color: var(--dim); border-bottom: 2px solid transparent; }
+.sidenav button::before, .sidenav button::after { content: none !important; }
+.sidenav button.active { color: var(--text); border-bottom-color: var(--purple); background: var(--panel-2); }
+.sidenav button[data-view="overview"], .sidenav button[data-view="files"] { display: none; }
+.statusbar { height: 24px; background: #0d0f13; border-top: 1px solid #000; font-size: 11.5px; text-transform: none; letter-spacing: 0; gap: 16px; }
+#sb-clock { color: var(--text); margin-left: 14px; letter-spacing: 0; }
+.assistant, .filepanel { background: var(--panel); }
+.filepanel, .card, .mini-card, .flagbar, .composer, .modes, .ch-card, .tool, .setup-item, .stat { background: var(--panel); border-color: var(--line); }
+
+h1 { font-size: 15px; text-transform: none; letter-spacing: 0; color: var(--text); }
+h1::before { content: none; }
+h3 { color: var(--dim); text-transform: none; letter-spacing: 0; }
+h3::before { content: none; }
+button { border-color: var(--line-2); }
+button:hover:not(:disabled) { border-color: var(--purple); color: var(--text); background: var(--panel-3); }
+button.primary, .composer .send { color: #fff; background: var(--purple); border-color: var(--purple); text-transform: none; letter-spacing: 0; }
+button.primary:hover, .composer .send:hover { background: #4a94ff; color: #fff; }
+input, select, textarea { background: var(--panel-2); border-color: var(--line); }
+
+/* ---------- workspace: only what is needed ---------- */
+.workbench { grid-template-columns: 210px minmax(0, 1fr); }
+.filepanel { padding: 10px 8px; gap: 8px; border-right: 1px solid #000; }
+.filepanel::before { content: 'Files'; background: none; color: var(--dim); margin: 0; padding: 0 4px; font-size: 11.5px; letter-spacing: 0; text-transform: none; font-weight: 600; }
+.filepanel .toggle-row, .drop-hint { font-size: 11.5px; color: var(--dim); }
+.tnode.sel { background: var(--purple-d); color: #fff; }
+
+.chmain { padding: 8px 10px; gap: 6px; }
+.title-input { font-size: 14px; color: var(--text); text-transform: none; letter-spacing: 0; font-weight: 600; flex: none; }
+/* hidden: category, difficulty, points, breadcrumbs — not needed to solve a challenge */
+#ch-category, #ch-difficulty, .chips .c-green:not(#solved-badge), .crumbs { display: none !important; }
+.chips .chip { border-color: var(--line); color: var(--dim); }
+.chips .chip input { color: var(--text); }
+#solved-badge { display: inline-flex !important; color: var(--green); border-color: var(--green); }
+#solved-badge.hidden { display: none !important; }
+#ch-desc { color: var(--text); font-size: 12.5px; background: var(--panel); border-color: var(--line); padding: 5px 8px; min-height: 30px; }
+
+/* terminal window */
+.dock { order: 3; flex: 1 1 320px; min-height: 240px; border: 1px solid #000; background: #0b0c10; }
+.dock::before { content: var(--win-title, 'cho@kali: ~'); display: block; text-align: center; background: #2a2e38; color: #cfd4de; font-size: 12px; font-weight: 600;
+  letter-spacing: 0; text-transform: none; padding: 4px 10px; border-bottom: 1px solid #000; }
+.dtabs { background: #1b1e25; border-bottom: 1px solid #000; }
+.vtabs button, .dtabs button[data-dtab] { text-transform: none; letter-spacing: 0; font-size: 12px; padding: 5px 12px; color: var(--dim); }
+.vtabs button.active, .dtabs button.active { color: var(--text); border-bottom-color: var(--purple); }
+.term, #py-editor, .term-line { background: #0b0c10; }
+.term { font-size: 13.5px; line-height: 1.45; color: #e4e7ec; padding: 8px 12px; }
+.term .cmd { color: var(--green); font-weight: 400; white-space: pre-wrap; }
+.term .info { color: var(--cyan); }
+.term .err { color: var(--red); }
+.term-line { align-items: flex-end; border-top: none; padding: 0 12px 10px; gap: 8px; }
+#term-prompt, .term-line .prompt { white-space: pre; color: var(--green); font-weight: 400; font-size: 13.5px; line-height: 1.45; }
+.term-line input { font-size: 13.5px; color: #fff; padding: 0; line-height: 1.45; height: 20px; }
+.term-line input::placeholder { color: #4a5266; }
+
+/* inspector */
+.chmain > .viewer { order: 4; flex: 0 1 250px; min-height: 0; border: 1px solid #000; }
+.chmain > .viewer::before { content: none; }
+.chmain > .viewer.collapsed { flex: none; }
+.viewer.collapsed .viewer-body, .viewer.collapsed .actions { display: none; }
+.vtabs { background: #1b1e25; }
+.insp-toggle { font-size: 11px; margin-left: 8px; }
+.vfile { margin-left: auto; }
+.actions button { font-size: 12px; }
+.flagbar { border-color: var(--line-2); }
+.flagbar .ico, .flagbar input { color: var(--green); }
+.flagbar input::placeholder { color: var(--dim); }
+
+/* ---------- Cho panel ---------- */
+.assistant { padding: 10px 10px; border-left: 1px solid #000; gap: 8px; }
+.assistant::before { content: none; }
+.as-head { gap: 10px; }
+.cho-main { width: 76px; height: 58px; }
+.cho-ascii { color: var(--purple); }
+.cho-big-art { font-size: 11px; }
+[data-mood="thinking"] .cho-ascii { color: var(--amber); }
+[data-mood="happy"] .cho-ascii { color: var(--green); }
+.as-name { font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--text); }
+.bubble { background: var(--panel-3); border-color: var(--purple); top: 64px; }
+.bubble::before { color: var(--purple); }
+.modes button { text-transform: none; letter-spacing: 0; font-size: 12px; padding: 4px; }
+.modes button.active { background: var(--purple-d); border-color: var(--purple); color: #fff; }
+.ctx, #plan-card { display: none !important; }
+.msg .bd, .msg.user .bd { border-left-color: var(--line-2); }
+.msg.user .bd { border-left-color: var(--purple); color: var(--text); }
+.msg .av { color: var(--purple); }
+.code, .toolrun { background: #0b0c10; border-color: var(--line); }
+.toolrun .bar { background: var(--panel-2); }
+.toolrun .bar .c, .code .bar button.run { color: var(--green); }
+.finding { border-color: var(--line-2); }
+.finding .fi-tx b { color: var(--green); }
+.toast { background: var(--panel-3); border-color: var(--line-2); color: var(--text); }
+.viewer-body { overflow: hidden; }
+.viewer-body > * { height: 100%; overflow: auto; }
+.pv { grid-template-rows: minmax(0, 1fr); }
+.pv > * { min-height: 0; max-height: 100%; overflow: auto; }
+
+/* frame: tab strip under the panel, workspace left, Cho right */
+.topbar, .shell, .statusbar { position: relative; z-index: 1; }
+.sidenav { grid-column: 1 / -1; flex-direction: row; align-items: stretch; gap: 0; border-right: none; }
+.sidenav button { border-left: none; }
+#views, .assistant { grid-row: 2; min-height: 0; }
+.title-input { order: 0; }
+.chips { order: 1; gap: 6px; }
+#ch-desc { order: 2; max-height: 60px; }
+.flagbar { order: 5; }
+.actions { padding: 6px 10px; }
+.actions button { padding: 3px 8px; }
+
+/* prompt: the input sits on the prompt's last line, right after the $ */
+.filepanel::before { content: none; }
+.filepanel h3 { display: block; margin: 0 4px; font-size: 11.5px; }
+.term-line { display: block; position: relative; }
+.term-line input { position: absolute; left: calc(12px + var(--prompt-ch, 4) * 1ch); bottom: 10px; width: calc(100% - 24px - var(--prompt-ch, 4) * 1ch); font-family: var(--mono); }
+
+/* toolbox: external links and install hints */
+.tool-link { color: var(--cyan); font-size: 12px; }
+.tool-install { font-size: 11px; color: var(--amber); background: var(--amber-d); padding: 3px 6px; display: block; }

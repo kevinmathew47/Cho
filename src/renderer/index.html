@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <title>Cho CTF Workspace</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="cho2.css">
+</head>
+<body>
+  <!-- ===== Cho avatar (ASCII, terminal style) ===== -->
+  <template id="cho-tpl">
+    <div class="cho-svg cho-ascii" aria-hidden="true"><pre class="cho-big-art">┌───────┐
+│ <span class="e">o</span>   <span class="e">o</span> │
+│  <span class="m">───</span>  │
+└─┬───┬─┘</pre><span class="cho-small-art">[<span class="e">o</span>_<span class="e">o</span>]</span></div>
+  </template>
+
+  <!-- ===== top bar ===== -->
+  <header class="topbar">
+    <div class="brand"><span class="cho-mini" data-cho></span><span>CTF / CHO</span></div>
+    <select id="ch-select" title="Switch challenge"></select>
+    <div class="search">
+      <span class="ico">⌕</span>
+      <input id="search" placeholder="Search challenges, files, tools…" spellcheck="false" autocomplete="off">
+      <div id="search-results" class="popover hidden"></div>
+    </div>
+    <button id="env-pill" class="pill" title="Environment status">● checking…</button>
+    <button id="btn-refresh" class="icon-btn" title="Re-check tools and AI">⟳</button>
+    <button id="btn-settings" class="icon-btn" title="Settings">⚙</button>
+  </header>
+
+  <div class="shell">
+    <!-- ===== side navigation ===== -->
+    <nav class="sidenav">
+      <button data-view="overview"><span>⌂</span>Overview</button>
+      <button data-view="challenges" class="active"><span>⚑</span>Workspace</button>
+      <button data-view="toolbox"><span>⚒</span>Tools <b id="nav-tools-count"></b></button>
+      <button data-view="files"><span>▤</span>Files</button>
+      <button data-view="notes"><span>✎</span>Notes</button>
+      <button data-view="settings"><span>#</span>Settings</button>
+    </nav>
+
+    <main id="views">
+      <!-- ===== Overview ===== -->
+      <section id="view-overview" class="view">
+        <h1>Overview</h1>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Environment setup</h3>
+            <div id="setup-list" class="setup-list"></div>
+          </div>
+          <div class="card">
+            <h3>Stats</h3>
+            <div id="stats" class="stats"></div>
+            <h3 style="margin-top:18px">Recent challenges</h3>
+            <div id="recent"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Challenges: list + workbench ===== -->
+      <section id="view-challenges" class="view active">
+        <div id="ch-list" class="pad hidden">
+          <div class="row between"><h1>Challenges</h1><button id="btn-new-ch" class="primary">＋ New challenge</button></div>
+          <div id="ch-cards" class="cards"></div>
+        </div>
+
+        <div id="workbench" class="workbench hidden">
+          <div class="filepanel" id="filepanel">
+            <h3>Challenge files</h3>
+            <button id="btn-import" class="wide">⤒ Import files</button>
+            <label class="toggle-row">Show hidden files <input type="checkbox" id="show-hidden" checked><span class="switch"></span></label>
+            <div id="tree" class="tree"></div>
+            <div class="drop-hint dim small">Drop files, folders or zips anywhere</div>
+          </div>
+
+          <div class="chmain">
+            <div class="crumbs"><a href="#" id="crumb-all">Challenges</a> / <span id="crumb-cat">—</span></div>
+            <input id="ch-title" class="title-input" spellcheck="false" placeholder="Challenge name">
+            <div class="chips">
+              <select id="ch-category" class="chip c-purple">
+                <option value="auto">◎ Auto-detect</option><option value="forensics">▣ Forensics</option><option value="stego">◐ Stego</option>
+                <option value="crypto">⚿ Crypto</option><option value="web">◍ Web</option><option value="reversing">⟲ Reversing</option>
+                <option value="pwn">☠ Pwn</option><option value="network">% Network</option><option value="osint">◉ OSINT</option><option value="misc">✱ Misc</option>
+              </select>
+              <select id="ch-difficulty" class="chip c-amber">
+                <option value="easy">▁ Easy</option><option value="medium">▃ Medium</option><option value="hard">▇ Hard</option><option value="insane">█ Insane</option>
+              </select>
+              <label class="chip c-green"><input id="ch-points" type="number" min="0" step="50"> pts</label>
+              <label class="chip">⚑ <input id="ch-flagfmt" placeholder="flag format e.g. CTF{...}" spellcheck="false"></label>
+              <label class="chip" title="Hosts this competition authorises you to contact for this challenge. Network commands to anything else are refused.">⌖ <input id="ch-targets" placeholder="authorised targets: host, host:port" spellcheck="false"></label>
+              <span id="solved-badge" class="chip c-green hidden">✓ Solved</span>
+            </div>
+            <textarea id="ch-desc" rows="2" placeholder="Paste the challenge question, hints, links, nc host port…" spellcheck="false"></textarea>
+
+            <div class="viewer card">
+              <div class="vtabs">
+                <button data-vtab="preview" class="active">Preview</button>
+                <button data-vtab="hex">Hex</button>
+                <button data-vtab="meta">Metadata</button>
+                <button data-vtab="strings">Strings</button>
+                <span class="vfile dim" id="vfile"></span>
+              </div>
+              <div id="viewer-body" class="viewer-body"></div>
+              <div class="actions">
+                <button id="act-meta">ⓘ Inspect metadata</button>
+                <button id="act-strings">Tт Extract strings</button>
+                <button id="act-analyze">◈ Analyze with Cho</button>
+              </div>
+            </div>
+
+            <div class="dock card">
+              <div class="dtabs">
+                <button data-dtab="terminal" class="active">▣ Terminal</button>
+                <button data-dtab="python">py Python</button>
+                <button data-dtab="output">▤ Output</button>
+                <span class="grow"></span>
+                <span id="shell-label" class="dim small"></span>
+                <button id="dock-kill" class="icon-btn danger hidden" title="Kill running command">■</button>
+                <button id="dock-clear" class="icon-btn" title="Clear">clr</button>
+              </div>
+              <div id="dock-terminal" class="dpane active">
+                <pre id="term-log" class="term"></pre>
+                <div class="term-line"><span id="term-prompt" class="prompt">$</span><input id="term-input" spellcheck="false" autocomplete="off" placeholder="shell command  |  ? ask cho  |  help"></div>
+              </div>
+              <div id="dock-python" class="dpane">
+                <div class="py-wrap">
+                  <textarea id="py-editor" spellcheck="false"></textarea>
+                  <div class="py-side">
+                    <button id="py-run" class="primary">▶ Run solve.py</button>
+                    <button id="py-cho" class="ghost">Ask Cho to write it</button>
+                    <pre id="py-out" class="term"></pre>
+                  </div>
+                </div>
+              </div>
+              <div id="dock-output" class="dpane"><pre id="out-log" class="term"></pre></div>
+            </div>
+
+            <div class="flagbar">
+              <span class="ico">⚑</span>
+              <input id="flag-input" list="flag-cands" placeholder="flag{...}" spellcheck="false">
+              <datalist id="flag-cands"></datalist>
+              <button id="flag-submit" class="primary" title="Records the flag here and marks the challenge solved. Submit it on the competition site too.">➤ Submit flag</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Toolbox ===== -->
+      <section id="view-toolbox" class="view">
+        <div class="pad">
+          <div class="row between">
+            <h1>Toolbox</h1>
+            <div class="row"><span id="tb-count" class="dim"></span><button id="tb-install">Install forensic toolkit</button></div>
+          </div>
+          <div class="row"><input id="tb-search" placeholder="Filter tools…" spellcheck="false" style="flex:1"></div>
+          <div id="tb-cats" class="catchips"></div>
+          <div id="tb-list"></div>
+        </div>
+      </section>
+
+      <!-- ===== Files ===== -->
+      <section id="view-files" class="view">
+        <div class="pad">
+          <div class="row between"><h1>Files</h1><button id="files-open">Open folder in Explorer</button></div>
+          <div id="files-table"></div>
+        </div>
+      </section>
+
+      <!-- ===== Notes ===== -->
+      <section id="view-notes" class="view">
+        <div class="pad notes-pad">
+          <div class="row between"><h1>Notes <span class="dim small" id="notes-state"></span></h1>
+            <div class="row"><button id="notes-cho">⤓ Insert Cho's last answer</button><button id="notes-flags">⤓ Insert flags</button></div></div>
+          <textarea id="notes" spellcheck="false" placeholder="Your notes / writeup for this challenge. Saved automatically to notes.md in the challenge folder."></textarea>
+        </div>
+      </section>
+
+      <!-- ===== Settings ===== -->
+      <section id="view-settings" class="view">
+        <div class="pad">
+          <h1>Settings</h1>
+          <div class="grid-2">
+            <div class="card form">
+              <h3>Cho's brain (Ollama)</h3>
+              <label>Model <select id="set-model"></select></label>
+              <label>Download a model
+                <div class="row"><input id="pull-name" value="qwen2.5:7b" spellcheck="false"><button id="pull-btn">⤓ Download</button></div>
+              </label>
+              <div class="dim small">Good picks for your RTX 3050 Ti: <b>qwen2.5:7b</b> (text), <b>qwen2.5-coder:7b</b> (scripts), <b>qwen2.5vl:3b</b> (reads screenshots).</div>
+              <pre id="pull-log" class="term mini"></pre>
+              <label>Ollama URL <input id="set-url" spellcheck="false"></label>
+            </div>
+            <div class="card form">
+              <h3>Agent & terminal</h3>
+              <label>Shell
+                <select id="set-shell"><option value="auto">Auto (Kali WSL if installed, else PowerShell)</option><option value="wsl">Kali / WSL bash</option><option value="powershell">Windows PowerShell</option><option value="container">Isolated container (Docker / Podman)</option></select>
+              </label>
+              <label>Agent max steps per run <input id="set-steps" type="number" min="1" max="40"></label>
+              <label class="toggle-row">Agent auto-runs local analysis commands <input type="checkbox" id="set-autorun"><span class="switch"></span></label>
+              <div class="dim small">Network commands (curl, nmap, nc…) always wait for your approval. Destructive commands are always blocked.</div>
+              <h3 style="margin-top:16px">Workspace</h3>
+              <div class="row"><code id="set-ws" class="ellipsis"></code><button id="set-ws-open">Open</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== AI assistant (Cho) ===== -->
+    <aside class="assistant">
+      <div class="as-head">
+        <div id="cho-main" class="cho-main" data-cho data-mood="idle" title="Click me!"></div>
+        <div class="as-title">
+          <div class="as-name">Cho <span class="dim small">AI teammate</span></div>
+          <div id="cho-status" class="dim small">ready</div>
+        </div>
+        <div id="cho-bubble" class="bubble"></div>
+      </div>
+
+      <div class="ctx">
+        <span class="lbl">Context</span>
+        <button id="ctx-prompt" class="ctx-chip on">▤ Challenge prompt <b>✕</b></button>
+        <button id="ctx-files" class="ctx-chip on">▣ <span id="ctx-files-n">0 files</span> attached <b>✕</b></button>
+      </div>
+
+      <div id="chat" class="chat"></div>
+
+      <div id="plan-card" class="mini-card hidden">
+        <div class="row between"><b>Task progress</b><span id="plan-count" class="dim small"></span></div>
+        <div id="plan-list"></div>
+      </div>
+      <div id="finding-card" class="mini-card finding hidden"></div>
+
+      <div id="agent-ctl" class="agent-ctl hidden">
+        <button id="agent-pause">❚❚ Pause</button>
+        <button id="agent-stop" class="danger">■ Stop</button>
+      </div>
+
+      <div id="attachments" class="attachments"></div>
+      <div class="composer">
+        <button id="btn-attach" class="icon-btn" title="Attach files to the challenge">[+]</button>
+        <button id="btn-screen" class="icon-btn" title="Show Cho my screen (one screenshot)">scr</button>
+        <textarea id="chat-input" rows="2" placeholder="Ask a question or attach files…"></textarea>
+        <button id="btn-send" class="send" title="Send (Enter)">➤</button>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="statusbar">
+    <span id="sb-tools">▣ Local tools</span>
+    <span id="sb-ws">● Isolated workspace</span>
+    <button id="sb-activity" class="linklike">● Activity log</button>
+    <span class="grow"></span>
+    <span id="sb-model" class="dim"></span><span id="sb-clock"></span>
+  </footer>
+
+  <div id="drop-overlay" class="drop-overlay hidden"><div>Drop to add to the challenge</div></div>
+  <div id="toast" class="toast"></div>
+
+  <script src="markdown.js"></script>
+  <script src="renderer.js"></script>
+  <script src="fx.js"></script>
+</body>
+</html>
