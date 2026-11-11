@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Cho CTF Workspace</title>
+<meta name="description" content="About Cho: an open-source, AI-assisted CTF workspace. Why it exists, who it's for, and the principles behind it.">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<header><div class="wrap">
+  <a class="brand" href="index.html">CTF <b>/</b> CHO</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#features">Features</a>
+    <a href="index.html#install">Install</a>
+    <a href="https://github.com/kevinmathew47/Cho">GitHub</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+  <div class="hero" style="padding-bottom:10px">
+    <h1>About Cho</h1>
+    <p class="tagline">An open-source CTF workspace that keeps the tools, the terminal, and the AI in one place — and on your machine.</p>
+  </div>
+
+  <div class="warn">⚠ Cho is for <b>authorised CTF competitions and isolated practice labs</b>. It assists; it does not automate attacks against systems you don't have permission to test, and it never promises a flag.</div>
+</div>
+
+<section><div class="wrap">
+  <h2>What it is</h2>
+  <p class="lead">Cho is a terminal-style desktop app that helps you work a Capture-the-Flag challenge from start to finish.</p>
+  <p>You drop in the challenge files or a link, and Cho gives you three things in one window: a <b>real shell</b> in the challenge folder, a <b>catalogue of 100+ security tools</b> with ready-to-run commands, and <b>Cho</b> — an AI teammate that runs locally and talks you through the next step. The same prompt runs a command or answers a question, so you stay in the terminal the whole time.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Why it exists</h2>
+  <p>CTF players juggle a dozen scattered tools, a pile of notes, and a browser full of cheat-sheets. Beginners don't know which tool to reach for; everyone loses track of what they've already tried. AI assistants can help, but most send your files to the cloud and happily state guesses as facts.</p>
+  <p>Cho is the answer to that: <b>one workspace</b>, a <b>local</b> model so nothing leaves your machine, and an assistant that is <b>honest about what it knows</b> — it marks a finding <span class="muted">VERIFIED</span> only when real command output backs it, and <span class="muted">ASSUMPTION</span> otherwise.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Who it's for</h2>
+  <ul class="clean">
+    <li><b>Newcomers</b> — learn by watching Cho pick the right tool and explain the output, step by step.</li>
+    <li><b>Competitors</b> — a fast cockpit for triage, recon, and keeping every challenge's work organised.</li>
+    <li><b>Teachers &amp; clubs</b> — a safe, self-contained lab that needs no cloud account and runs offline.</li>
+  </ul>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Principles</h2>
+  <div class="grid">
+    <div class="card"><h3>Local-first</h3><p>The AI and the tools run on your own hardware. Your challenges and files never leave the machine.</p></div>
+    <div class="card"><h3>Transparent</h3><p>Verified facts are separated from guesses. No invented output, no hidden steps.</p></div>
+    <div class="card"><h3>Controlled</h3><p>Work stays in the challenge folder and the hosts you authorise. Destructive commands are blocked; network commands wait for your approval.</p></div>
+    <div class="card"><h3>Honest about limits</h3><p>No claim to support every tool or to win competitions. The docs state exactly what each safeguard does and doesn't cover.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>How it's built</h2>
+  <p>An Electron desktop shell with a sandboxed interface and a Node core that runs the file analysis, classifies every command, enforces the authorised-target scope, and relays to a local <a href="https://ollama.com">Ollama</a> model. The security tools run through <a href="https://www.kali.org">Kali</a> (WSL) or a throwaway <a href="https://www.docker.com">Docker</a> container. Full design notes are in the <a href="https://github.com/kevinmathew47/Cho/blob/main/docs/ARCHITECTURE.md">architecture doc</a>.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Credits</h2>
+  <ul class="clean">
+    <li>Tool landscape inspired by <a href="https://github.com/apsdehal/awesome-ctf">awesome-ctf</a>.</li>
+    <li>Local inference by <a href="https://ollama.com">Ollama</a>; security tooling from <a href="https://www.kali.org">Kali Linux</a> and the wider open-source community.</li>
+    <li>Each bundled tool keeps its own licence — see <a href="https://github.com/kevinmathew47/Cho/blob/main/THIRD_PARTY_LICENSES.md">THIRD_PARTY_LICENSES</a>.</li>
+  </ul>
+  <p style="margin-top:18px"><a class="btn solid" href="https://github.com/kevinmathew47/Cho">View the project on GitHub</a></p>
+</div></section>
+
+<footer><div class="wrap">
+  Cho CTF Workspace · MIT licensed · <a href="https://github.com/kevinmathew47/Cho">github.com/kevinmathew47/Cho</a><br>
+  Built for authorised CTF competitions and isolated practice environments.
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,44 @@
+/* Shared flat terminal theme for the Cho site (black bg, terminal green, no effects). */
+:root{
+  --bg:#000;--panel:#0a0a0a;--line:#1c1c1c;--line2:#2a2a2a;
+  --text:#33d457;--dim:#1f7a3a;--bright:#5de87d;--amber:#c5d46a;
+  --mono:'Cascadia Mono','JetBrains Mono','DejaVu Sans Mono',Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:15px;line-height:1.65}
+a{color:var(--bright);text-decoration:none;border-bottom:1px dotted var(--line2)}
+a:hover{color:#fff}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid var(--line);padding:14px 0;position:sticky;top:0;background:var(--bg);z-index:10}
+header .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:700;letter-spacing:3px;color:var(--bright);font-size:18px;text-transform:uppercase;border:0}
+.brand b{color:var(--text)}
+header nav{margin-left:auto;display:flex;gap:18px;font-size:13px;flex-wrap:wrap}
+header nav a{border:0}
+.hero{padding:52px 0 26px;text-align:center}
+.hero h1{font-size:32px;color:var(--bright);margin:0 0 10px;letter-spacing:1px}
+.hero p{color:var(--text);max-width:720px;margin:0 auto 10px;font-size:17px}
+.tagline{color:var(--dim);font-size:14px}
+.cta{display:flex;gap:14px;justify-content:center;margin:26px 0 6px;flex-wrap:wrap}
+.btn{border:1px solid var(--text);padding:11px 20px;border-radius:6px;color:var(--text);font-weight:700;letter-spacing:1px}
+.btn.solid{background:var(--text);color:#000}
+.btn:hover{background:var(--text);color:#000}
+.warn{border:1px solid var(--amber);background:#14160a;color:var(--amber);border-radius:8px;padding:12px 16px;margin:22px auto;max-width:760px;font-size:13.5px;text-align:left}
+.shot{margin:28px auto;max-width:980px;border:1px solid var(--line2);border-radius:10px;overflow:hidden}
+.shot img{width:100%;display:block}
+section{padding:34px 0;border-top:1px solid var(--line)}
+h2{color:var(--text);font-size:18px;letter-spacing:1px;text-transform:uppercase;margin:0 0 18px}
+h2::before{content:'// ';color:var(--dim)}
+.lead{color:var(--bright);font-size:18px;margin:0 0 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{border:1px solid var(--line2);border-radius:8px;padding:14px 16px;background:var(--panel)}
+.card h3{margin:0 0 6px;color:var(--bright);font-size:15px}
+.card p{margin:0;color:var(--text);font-size:13.5px}
+pre{background:#060606;border:1px solid var(--line2);border-radius:8px;padding:14px 16px;overflow:auto;color:var(--bright);font-size:13.5px}
+.muted{color:var(--dim)}
+ul.clean{list-style:none;padding:0;margin:0}
+ul.clean li{padding:6px 0 6px 20px;position:relative;font-size:14.5px}
+ul.clean li::before{content:'>';position:absolute;left:0;color:var(--text)}
+footer{border-top:1px solid var(--line);padding:24px 0;color:var(--dim);font-size:13px;text-align:center}
+footer a{border:0}
